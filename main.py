@@ -82,4 +82,6 @@ plt.show()
 #trains model saves it to a pickle so we can load it later for inference
 #Joblib is a library built on top of pickle where it actually compresses it and loads it
 joblib.dump(rf, "rf_model.pkl")
-
+joblib.dump(scaler, "scaler.pkl")
+joblib.dump(label_encoder, "label_encoder.pkl")
+joblib.dump(features.columns.tolist(), "feature_columns.pkl")
