@@ -46,7 +46,7 @@ def generate_suggestions(file_path):
         label = pred_labels[i]
 
         if label.lower() == "normal":
-            suggestions.append("No action needed — traffic appears normal.")
+            suggestions.append("No action needed: traffic appears normal.")
             continue
 
         #get top contributing features for this row
