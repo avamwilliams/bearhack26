@@ -68,7 +68,7 @@ axes[1].set_title("Top 20 Features in Feature Selection (Biometric=Green, Networ
 axes[1].set_xlabel("Importance")
 plt.tight_layout()
 plt.savefig("results.png", dpi=150)
-#plt.show()
+plt.show()
 
 #evaluation for checking only subsectiosn of features vs all of them combined 
 def train_evaluate(X_train, y_train, X_test, y_test, testing_title):
@@ -130,7 +130,7 @@ for bar, val in zip(bars2, spoof_f1s):
 plt.suptitle("Does Adding Biometrics Improve Attack Detection?", fontsize=13, fontweight='bold')
 plt.tight_layout()
 plt.savefig("model_comparison.png", dpi=150)
-#plt.show()
+plt.show()
 
 #shap contribution graph
 X_test_combined = X_test_raw[network_columns + bio_columns]
@@ -153,7 +153,7 @@ shap.summary_plot(
 plt.title("What drives Spoofing detection?")
 plt.tight_layout()
 plt.savefig("shap_spoofing.png", dpi=150)
-#plt.show()
+plt.show()
 
 
 #isolation forest setup + evaluation
