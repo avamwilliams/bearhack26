@@ -29,7 +29,10 @@ def preprocess_input(df):
     df = df.apply(pd.to_numeric, errors='coerce').fillna(0)
 
     #scaling
-    df_scaled = scaler.transform(df)
+    df_scaled = pd.DataFrame(
+        scaler.transform(df),
+        columns=df.columns
+    )
 
     return df_scaled
 
