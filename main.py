@@ -3,6 +3,8 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import SMOTE
+from sklearn.ensemble import RandomForestClassifier
+
 
 df = pd.read_csv("wustl-ehms-2020_with_attacks_categories.csv")
 df.columns = df.columns.str.strip()
@@ -35,7 +37,6 @@ scaled_features = pd.DataFrame(scaler.fit_transform(features), columns=features.
 #SMOTE needed for balancing data for random fores
 X_train, X_test, y_train, y_test = train_test_split(scaled_features, encoded_labels, test_size=0.2, random_state=67, stratify=encoded_labels)
 smote = SMOTE(random_state=67, k_neighbors=5)
-X_train, y_train_SMOTE = smote.fit_resample(X_train, y_train)
+X_train, y_train = smote.fit_resample(X_train, y_train)
 #2=normal, 1=spoofing, 0=data altercation
-print(f"{pd.Series(y_train_SMOTE).value_counts().to_dict()}")
-
+print(f"{pd.Series(y_train).value_counts().to_dict()}")
