@@ -1,54 +1,57 @@
+
+
+import os os.environ['TF_ENABLE_ONEDNN_OPTS'] = '0' os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3' import warnings warnings.filterwarnings('ignore') import logging logging.getLogger('tensorflow').setLevel(logging.ERROR) import pandas as pd import numpy as np import matplotlib matplotlib.use('Agg
+
+pasted
+
+how do i connect backend to my front end site
+
+this needs to appear in my box
+══════════════════════════════════════════════════════════════ IOMT SECURITY REPORT - Input sample #6 ══════════════════════════════════════════════════════════════ Prediction: Data Alteration Confidence: 100.0% Class probs: normal=0.0% spoofing=0.0% dataalt=100.0% ────────────────────────────────────────────────────────────── SEVERITY SCORE: 79.4 / 100 ALERT LEVEL: HIGH ────────────────────────────────────────────────────────────── Signal breakdown: RF attack probability : 100.0% (weight 50%) Isolation Forest score : 81.2% (weight 30%) Autoencoder anomaly : 25.0% (weight 20%) ────────────────────────────────────────────────────────────── Top 5 features used in classification (Data Alteration) Flgs M SHAP=0.1535 value=True DstJitter SHAP=0.1254 value=50.401 SrcLoad SHAP=0.0747 value=19026.0 DIntPkt SHAP=0.0670 value=50.406 SIntPkt SHAP=0.0517 value=52.139668 ────────────────────────────────────────────────────────────── Top 5 features deviating from normal (autoencoder) Flgs_ M reconerr=19.1422 value=True Flgs e recon_err=16.3703 value=False Packet_num recon_err=3.5717 value=109 SYS recon_err=2.5157 value=138 (biometric) Load recon_err=2.4456 value=25368.0 ══════════════════════════════════════════════════════════════
+
+appear in this front end
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
-
   <style>
 * {
   box-sizing: border-box;
 }
-
 html, body {
   margin: 0;
   height: 100%;
 }
-
 body {
   overflow-x: hidden;
   background: url('https://i.postimg.cc/d1Ms2R3J/Screenshot-2026-04-04-103604.png') center/cover no-repeat;
   font-family: 'Inter', sans-serif;
 }
-
 /* HEADER */
 .header {
   width: 100%;
   height: 100px;
-  background-color: #1d2040;
-
+  background-color: 
+#1d2040;
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 20px;
 }
-
 .logo {
   font-weight: bold;
   font-size: 40px;
   color: white;
   margin: 0;
 }
-
 .nav-buttons {
   display: flex;
   gap: 10px;
 }
-
 .button {
   border: 1px solid white;
   border-radius: 6px;
@@ -60,13 +63,11 @@ body {
   transition: 0.3s;
   text-decoration: none;
 }
-
 .button:hover {
   background-color: white;
   color: black;
   text-decoration: none;
 }
-
 /* TITLES */
 .title {
   color: white;
@@ -75,7 +76,6 @@ body {
   text-align: center;
   margin-top: 40px;
 }
-
 .center-container {
   display: flex;
   flex-direction: column;
@@ -83,24 +83,19 @@ body {
   gap: 20px;
   margin-top: 30px;
 }
-
 /* BOXES */
 .fancybox {
   width: 40%;
   padding: 20px;
-
   background: rgba(29, 32, 64, 0.6);
   border-radius: 12px;
-
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
-
 /* TEXT */
 .subtitle {
   display: flex;
@@ -109,21 +104,21 @@ body {
   font-size: 20px;
   color: white;
 }
-
 .pill {
   background-color: white;
-  color: #1d2040;
+  color: 
+#1d2040;
   padding: 6px 14px;
   border-radius: 999px;
   font-size: 16px;
   font-weight: bold;
 }
-
 /* FILE BUTTON */
 .file-button {
   display: inline-block;
   background-color: white;
-  color: #1d2040;
+  color: 
+#1d2040;
   padding: 10px 18px;
   border-radius: 8px;
   font-size: 16px;
@@ -132,11 +127,10 @@ body {
   transition: 0.3s;
   margin-top: 10px;
 }
-
 .file-button:hover {
-  background-color: #e6e6e6;
+  background-color: 
+#e6e6e6;
 }
-
 #fileName {
   color: white;
   text-align: center;
@@ -144,47 +138,381 @@ body {
 }
   </style>
 </head>
-
 <body>
-
   <div class="header">
-    <img class="logo" src="https://i.postimg.cc/BQ5zfpQw/Untitled686-20260404211313.png" style="height: 90px">
-
+    <p class="logo">HealthHop</p>
 <div class="nav-buttons">
-  <a href="index.html" class="button">Import</a>
+  <a href="import.html" class="button">Import</a>
   <a href="analysis.html" class="button">Analysis</a>
   <a href="info.html" class="button">Info</a>
 </div>
   </div>
-  
-
 
   <div class="title">Analysing Health Data</div>
-
   <div class="center-container">
-
     <div class="fancybox">
       <div class="subtitle">
         Analysing data for:
         <span class="pill">Patient</span>
       </div>
     </div>
-    
+
     <div class= "fancybox" style="width:70%">
     <div class = "subtitle">
     The imported data indicates that the medical equipment is performing normally. <br><br>The imported data indicates that the medical equipment is performing abnormally. This suggests the device is compromised.
     </div>
     </div>
-
-
 <script>
   const input = document.getElementById("fileUpload");
   const fileName = document.getElementById("fileName");
-
   input.addEventListener("change", () => {
     fileName.textContent = input.files[0]?.name || "";
   });
 </script>
-
 </body>
 </html>
+
+heres the backend were using
+suggestions.py
+import pandas as pd
+import numpy as np
+import joblib
+def generate_suggestions(file_path):
+    #load everything
+    model = joblib.load("rf_model.pkl")
+    scaler = joblib.load("scaler.pkl")
+    label_encoder = joblib.load("label_encoder.pkl")
+    feature_columns = joblib.load("feature_columns.pkl")
+    #load data
+    df = pd.read_csv(file_path)
+    df.columns = df.columns.str.strip()
+    #same preprocessing as training
+    drop_cols = ['SrcMac', 'DstMac', 'Dir', 'SrcAddr', 'DstAddr', 'Sport', 'Label']
+    df = df.drop(columns=[col for col in drop_cols if col in df], errors='ignore')
+    if 'Flgs' in df.columns:
+        df = pd.get_dummies(df, columns=['Flgs'], drop_first=False)
+    #align features
+    for col in feature_columns:
+        if col not in df:
+            df[col] = 0
+    df = df[feature_columns]
+    #scale
+    df_scaled = pd.DataFrame(
+        scaler.transform(df),
+        columns=df.columns
+    )
+    #predict
+    preds = model.predict(df_scaled)
+    pred_labels = label_encoder.inverse_transform(preds)
+    #feature importance
+    importances = pd.Series(model.feature_importances_, index=feature_columns)
+    suggestions = []
+    for i, row in df.iterrows():
+        label = pred_labels[i]
+        if label.lower() == "normal":
+            suggestions.append("No action needed — traffic appears normal.")
+            continue
+        #get top contributing features for this row
+        row_values = row.abs()
+        contribution = importances * row_values
+        top_features = contribution.nlargest(5).index.tolist()
+        #generate suggestions
+        row_suggestions = []
+        for f in top_features:
+            if "Load" in f:
+                row_suggestions.append("High traffic load detected: consider rate limiting.")
+            elif "Pkt" in f:
+                row_suggestions.append("Unusual packet behavior: inspect packet frequency and size.")
+            elif "Jitter" in f:
+                row_suggestions.append("Network instability detected: check for spoofing or interference.")
+            elif "Temp" in f or "Heart_rate" in f:
+                row_suggestions.append("Abnormal biometric readings: verify device integrity.")
+            elif "Loss" in f:
+                row_suggestions.append("Packet loss observed: investigate possible tampering.")
+            else:
+                row_suggestions.append(f"Check feature: {f}")
+        suggestions.append({
+            "prediction": label,
+            "top_features": top_features,
+            "suggestions": list(set(row_suggestions))  #remove duplicates
+        })
+    return suggestions
+
+and testsuggestions .py
+
+from suggestions import generate_suggestions
+#generate suggestions
+results = generate_suggestions("normal.csv")
+print(results)
+#compromised payload
+comp_result = generate_suggestions("compromised.csv")
+print(comp_result)
+
+Show more
+9:43 PM
+Looking at your setup, the cleanest approach is to build a small Flask API that runs your Python backend and serves results to your HTML frontend via a fetch call.
+
+Here's the plan:
+
+1. Create app.py (Flask Server)
+
+Flask backend API
+Flask backend API
+2. Updated analysis.html
+
+Created a file, read a file
+Created a file, read a file
+Here's how the whole thing connects:
+
+Install the two new dependencies first:
+
+bash
+pip install flask flask-cors
+Then start the backend:
+
+bash
+python app.py
+How it works end-to-end:
+
+The user opens analysis.html in a browser and picks a CSV file
+Clicking Run Analysis sends the file to http://localhost:5000/analyze via a POST request
+app.py receives it, saves it to a temp file, calls your existing generate_suggestions(), and returns the results as JSON
+The frontend formats and displays the report in the styled box — with colour-coded HIGH / MEDIUM / LOW alert badges
+Important: app.py needs to live in the same folder as suggestions.py and all your .pkl model files, since it imports from suggestions directly.
+
+If you later deploy the backend to a server (e.g. Render, Railway), just change this one line in the HTML:
+
+js
+const API_URL = "http://localhost:5000/analyze";  // swap for your deployed URL
+Analysis
+Code · HTML 
+App
+PY 
+
+Want to be notified when Claude responds?
+
+
+
+
+Claude is AI and can make mistakes. Please double-check responses.
+Analysis · HTML
+Copy
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet">
+  <style>
+* { box-sizing: border-box; }
+html, body { margin: 0; height: 100%; }
+body {
+  overflow-x: hidden;
+  background: url('https://i.postimg.cc/d1Ms2R3J/Screenshot-2026-04-04-103604.png') center/cover no-repeat;
+  font-family: 'Inter', sans-serif;
+}
+.header {
+  width: 100%; height: 100px;
+  background-color: #1d2040;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 20px;
+}
+.logo { font-weight: bold; font-size: 40px; color: white; margin: 0; }
+.nav-buttons { display: flex; gap: 10px; }
+.button {
+  border: 1px solid white; border-radius: 6px; color: white;
+  padding: 12px 20px; font-size: 18px; cursor: pointer;
+  background-color: transparent; transition: 0.3s; text-decoration: none;
+}
+.button:hover { background-color: white; color: black; }
+.title { color: white; font-size: 40px; font-weight: bold; text-align: center; margin-top: 40px; }
+.center-container { display: flex; flex-direction: column; align-items: center; gap: 20px; margin-top: 30px; }
+.fancybox {
+  width: 40%; padding: 20px;
+  background: rgba(29, 32, 64, 0.6);
+  border-radius: 12px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+}
+.subtitle { display: flex; align-items: center; gap: 10px; font-size: 20px; color: white; }
+.pill {
+  background-color: white; color: #1d2040;
+  padding: 6px 14px; border-radius: 999px; font-size: 16px; font-weight: bold;
+}
+.file-button {
+  display: inline-block; background-color: white; color: #1d2040;
+  padding: 10px 18px; border-radius: 8px; font-size: 16px; font-weight: bold;
+  cursor: pointer; transition: 0.3s; margin-top: 10px;
+}
+.file-button:hover { background-color: #e6e6e6; }
+#fileName { color: white; text-align: center; margin-top: 10px; }
+ 
+/* ── Report box ── */
+#reportBox {
+  width: 70%; padding: 24px;
+  background: rgba(29, 32, 64, 0.85);
+  border-radius: 12px;
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  color: white; font-family: 'Courier New', monospace; font-size: 13px;
+  white-space: pre-wrap; line-height: 1.6;
+  display: none;               /* hidden until results arrive */
+}
+#reportBox.visible { display: block; }
+ 
+/* alert badge colours */
+.badge-HIGH   { color: #ff4d4d; font-weight: bold; }
+.badge-MEDIUM { color: #ffaa00; font-weight: bold; }
+.badge-LOW    { color: #4dff91; font-weight: bold; }
+ 
+.spinner {
+  display: none; color: white; font-size: 18px;
+  text-align: center; margin-top: 10px;
+}
+.spinner.visible { display: block; }
+  </style>
+</head>
+<body>
+ 
+<div class="header">
+  <p class="logo">HealthHop</p>
+  <div class="nav-buttons">
+    <a href="import.html"   class="button">Import</a>
+    <a href="analysis.html" class="button">Analysis</a>
+    <a href="info.html"     class="button">Info</a>
+  </div>
+</div>
+ 
+<div class="title">Analysing Health Data</div>
+ 
+<div class="center-container">
+ 
+  <!-- Patient pill -->
+  <div class="fancybox">
+    <div class="subtitle">
+      Analysing data for: <span class="pill">Patient</span>
+    </div>
+  </div>
+ 
+  <!-- Upload box -->
+  <div class="fancybox" style="width:70%">
+    <label class="file-button" for="fileUpload">Upload CSV</label>
+    <input type="file" id="fileUpload" accept=".csv" style="display:none" />
+    <div id="fileName"></div>
+    <button class="file-button" id="analyzeBtn" style="margin-top:14px;display:none">
+      Run Analysis
+    </button>
+  </div>
+ 
+  <div class="spinner" id="spinner">⏳ Running analysis…</div>
+ 
+  <!-- Report output -->
+  <div id="reportBox"></div>
+ 
+</div><!-- end center-container -->
+ 
+<script>
+const API_URL = "http://localhost:5000/analyze";  // change if you deploy
+ 
+const fileInput  = document.getElementById("fileUpload");
+const fileLabel  = document.getElementById("fileName");
+const analyzeBtn = document.getElementById("analyzeBtn");
+const spinner    = document.getElementById("spinner");
+const reportBox  = document.getElementById("reportBox");
+ 
+// Show filename + reveal Run button when a file is chosen
+fileInput.addEventListener("change", () => {
+  const name = fileInput.files[0]?.name || "";
+  fileLabel.textContent = name;
+  analyzeBtn.style.display = name ? "inline-block" : "none";
+  reportBox.classList.remove("visible");
+  reportBox.innerHTML = "";
+});
+ 
+// Send file to Flask, render results
+analyzeBtn.addEventListener("click", async () => {
+  const file = fileInput.files[0];
+  if (!file) return;
+ 
+  spinner.classList.add("visible");
+  reportBox.classList.remove("visible");
+  reportBox.innerHTML = "";
+  analyzeBtn.disabled = true;
+ 
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+ 
+    const res  = await fetch(API_URL, { method: "POST", body: formData });
+    const data = await res.json();
+ 
+    if (data.error) {
+      reportBox.innerHTML = `<span style="color:#ff4d4d">Error: ${data.error}</span>`;
+    } else {
+      reportBox.innerHTML = formatResults(data);
+    }
+    reportBox.classList.add("visible");
+ 
+  } catch (err) {
+    reportBox.innerHTML =
+      `<span style="color:#ff4d4d">Could not reach backend.\nMake sure app.py is running on port 5000.\n\n${err}</span>`;
+    reportBox.classList.add("visible");
+  } finally {
+    spinner.classList.remove("visible");
+    analyzeBtn.disabled = false;
+  }
+});
+ 
+// ── Format the JSON results into readable text ──────────────────────────────
+function formatResults(results) {
+  const W = 62;
+  const line  = "═".repeat(W);
+  const dash  = "─".repeat(W);
+  let out = "";
+ 
+  results.forEach((r, i) => {
+    // Normal traffic → simple message
+    if (typeof r === "string") {
+      out += `${line}\n`;
+      out += `  IOMT SECURITY REPORT — Sample #${i + 1}\n`;
+      out += `${line}\n`;
+      out += `  ✅  ${r}\n`;
+      out += `${line}\n\n`;
+      return;
+    }
+ 
+    const { prediction, top_features, suggestions } = r;
+ 
+    // Severity colours
+    const isHigh   = prediction.toLowerCase().includes("alteration") ||
+                     prediction.toLowerCase().includes("spoofing");
+    const alertLvl = isHigh ? "HIGH" : "MEDIUM";
+    const badge    = `<span class="badge-${alertLvl}">${alertLvl}</span>`;
+ 
+    out += `${line}\n`;
+    out += `  IOMT SECURITY REPORT — Sample #${i + 1}\n`;
+    out += `${line}\n`;
+    out += `\n\tPrediction : ${prediction}\n`;
+    out += `\tALERT LEVEL: ${alertLvl}\n`;     // plain text (badge added below)
+    out += `\n${dash}\n`;
+    out += `  Top contributing features:\n`;
+    top_features.forEach(f => { out += `    • ${f}\n`; });
+    out += `\n${dash}\n`;
+    out += `  Recommendations:\n`;
+    suggestions.forEach(s => { out += `    ➤ ${s}\n`; });
+    out += `\n${line}\n\n`;
+  });
+ 
+  // Swap plain ALERT LEVEL text for coloured badge
+  return out
+    .replace(/ALERT LEVEL: HIGH/g,   `ALERT LEVEL: <span class="badge-HIGH">HIGH</span>`)
+    .replace(/ALERT LEVEL: MEDIUM/g, `ALERT LEVEL: <span class="badge-MEDIUM">MEDIUM</span>`)
+    .replace(/ALERT LEVEL: LOW/g,    `ALERT LEVEL: <span class="badge-LOW">LOW</span>`);
+}
+</script>
+</body>
+</html>
+ 
+
