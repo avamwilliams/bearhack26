@@ -87,12 +87,12 @@ ae_p99 = np.percentile(ae_full, 99)
 
 def generate_suggestions(prediction, alert_level, top5_shap_keys):
     if prediction.lower() == "normal" and alert_level == "LOW":
-        return ["No action needed — traffic appears normal."]
+        return ["No action needed: traffic appears normal."]
 
     suggestions = set()
 
     if alert_level in ("MEDIUM", "HIGH") and prediction.lower() == "normal":
-        suggestions.add("Model predicts normal but anomaly signals are elevated — manual review recommended.")
+        suggestions.add("Model predicts normal but anomaly signals are elevated: manual review recommended.")
 
     for f in top5_shap_keys:
         if "Load" in f:
