@@ -68,7 +68,7 @@ axes[1].set_title("Top 20 Features in Feature Selection (Biometric=Green, Networ
 axes[1].set_xlabel("Importance")
 plt.tight_layout()
 plt.savefig("results.png", dpi=150)
-plt.show()
+#plt.show()
 
 #evaluation for checking only subsectiosn of features vs all of them combined 
 def train_evaluate(X_train, y_train, X_test, y_test, testing_title):
@@ -130,7 +130,7 @@ for bar, val in zip(bars2, spoof_f1s):
 plt.suptitle("Does Adding Biometrics Improve Attack Detection?", fontsize=13, fontweight='bold')
 plt.tight_layout()
 plt.savefig("model_comparison.png", dpi=150)
-plt.show()
+#plt.show()
 
 #shap contribution graph
 X_test_combined = X_test_raw[network_columns + bio_columns]
@@ -153,7 +153,7 @@ shap.summary_plot(
 plt.title("What drives Spoofing detection?")
 plt.tight_layout()
 plt.savefig("shap_spoofing.png", dpi=150)
-plt.show()
+#plt.show()
 
 
 #isolation forest setup + evaluation
@@ -228,7 +228,7 @@ axes[1].set_title("Per-Feature Reconstruction Error (Biometric=Green, Network=Or
 axes[1].set_xlabel("Mean Squared Error")
 plt.tight_layout()
 plt.savefig("autoencoder_results.png", dpi=150)
-plt.show()
+#plt.show()
 
 #shows random forest results vs iso forest vs autoencoder results
 rf_binary_prob = 1 - model_comb.predict_proba(X_test_combined)[:, 2]
@@ -251,7 +251,7 @@ for bar, val in zip(bars, comparison['AUROC']):
     ax.text(bar.get_x() + bar.get_width()/2, bar.get_height() + 0.005, f"{val:.3f}", ha='center', fontweight='bold')
 plt.tight_layout()
 plt.savefig("model_comparison_all.png", dpi=150)
-plt.show()
+#plt.show()
 
 
 #severity scoring for normal vs spoofing vs data alteration using 3 signals (1 from RF attack probability, 2 is normalized isolation forest results, 3 is normalized AE reconstruction error)
@@ -262,6 +262,16 @@ iso_full = isoforest.decision_function(X_full_combined)
 iso_norm = 1 - (iso_full - iso_full.min()) / (iso_full.max() - iso_full.min())
 
 ae_full = np.mean((X_full_combined.values - autoencoder.predict(X_full_combined.values)) ** 2, axis=1)
+ae_p5  = np.percentile(ae_full, 5)   # add this
+ae_p99 = np.percentile(ae_full, 99)  # add this
+print("ae_full stats:")
+print(f"  min:    {ae_full.min():.6f}")
+print(f"  p5:     {np.percentile(ae_full, 5):.6f}")
+print(f"  p50:    {np.percentile(ae_full, 50):.6f}")
+print(f"  p95:    {np.percentile(ae_full, 95):.6f}")
+print(f"  p99:    {np.percentile(ae_full, 99):.6f}")
+print(f"  max:    {ae_full.max():.6f}")
+print(f"  mean:   {ae_full.mean():.6f}")
 ae_norm = (ae_full - ae_full.min()) / (ae_full.max() - ae_full.min())
 
 #severity is mostly weighted on random forest due to high AUROC scores and then slightly on isoforest and autoencoder results
