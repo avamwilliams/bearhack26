@@ -1,0 +1,2 @@
+Dir,Flgs,Sport,Dport,SrcBytes,DstBytes,SrcLoad,DstLoad,SrcGap,DstGap,SIntPkt,DIntPkt,SIntPktAct,DIntPktAct,SrcJitter,DstJitter,sMaxPktSz,dMaxPktSz,sMinPktSz,dMinPktSz,Dur,Trans,TotPkts,TotBytes,Load,Loss,pLoss,pSrcLoss,pDstLoss,Rate,Packet_num,Temp,SpO2,Pulse_Rate,SYS,DIA,Heart_rate,Resp_Rate,ST
+->,M,58388,1111,496,186,21394.0,7131.0,0,0,46.368,41.8805,0.0,0,6.425858,41.7855,310,66,60,60,0.139104,1,7,682,28525.0,0,0.0,0.0,0.0,43.133,106,28.9,97,83,138,78,90,13,0.44
