@@ -85,11 +85,15 @@ ae_p5  = np.percentile(ae_full, 5)
 ae_p99 = np.percentile(ae_full, 99)
 
 
-def generate_suggestions(prediction, top5_shap_keys):
-    if prediction.lower() == "normal":
+def generate_suggestions(prediction, alert_level, top5_shap_keys):
+    if prediction.lower() == "normal" and alert_level == "LOW":
         return ["No action needed — traffic appears normal."]
 
     suggestions = set()
+
+    if alert_level in ("MEDIUM", "HIGH") and prediction.lower() == "normal":
+        suggestions.add("Model predicts normal but anomaly signals are elevated — manual review recommended.")
+
     for f in top5_shap_keys:
         if "Load" in f:
             suggestions.add("High traffic load detected: consider rate limiting.")
@@ -105,11 +109,12 @@ def generate_suggestions(prediction, top5_shap_keys):
             suggestions.add("Abnormal blood pressure readings: check sensor calibration.")
         elif "Resp" in f or "ST" in f:
             suggestions.add("Abnormal respiratory/ECG readings: verify patient sensor connections.")
+        elif "Flgs" in f:
+            suggestions.add("Unusual network flags detected: inspect packet headers.")
         else:
             suggestions.add(f"Investigate anomalous feature: {f}")
 
     return list(suggestions)
-
 
 def analyze_sample_json(row_idx, scaled_df, raw_df):
     sample_scaled  = scaled_df.iloc[[row_idx]]
@@ -140,8 +145,7 @@ def analyze_sample_json(row_idx, scaled_df, raw_df):
     top5_shap     = pd.Series(np.abs(shap_for_pred), index=all_cols).nlargest(5)
     top5_recon    = pd.Series(per_feat_error, index=all_cols).nlargest(5)
 
-    suggestions = generate_suggestions(rf_pred_label, list(top5_shap.index))
-
+    suggestions = generate_suggestions(rf_pred_label, alert_level, list(top5_shap.index))
     return {
         "sample": row_idx + 1,
         "prediction": rf_pred_label,
