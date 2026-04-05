@@ -153,7 +153,6 @@ body {
     <img class="logo" src="https://i.postimg.cc/BQ5zfpQw/Untitled686-20260404211313.png" style="height: 90px">
 
 <div class="nav-buttons">
-  <a href="index.html" class="button">Import</a>
   <a href="analysis.html" class="button">Analysis</a>
   <a href="info.html" class="button">Info</a>
 </div>
@@ -169,15 +168,33 @@ body {
   
       <div class= "fancybox">
     
-    <div class="title" style="margin-bottom: 10px">insert title</div>
+    <div class="title" style="margin-bottom: 10px">Data Collection Pipeline</div>
     <img src="https://i.postimg.cc/C1c0Kd59/image.png"style="width:70%">
     
     <div class = "subtitle" style="margin-top: 20px; margin-left:10px; margin-right:10px">
-    insert caption
+    Patient biometrics (SpO2, blood pressure, temperature, ECG) are recorded by medical sensors and sent through a gateway to a server. <br><br>
+An attacker can intercept this data mid-transmission, while the Intrusion Detection System (IDS) monitors the network for suspicious activity.
     </div>
     
     </div>
 
+
+            <div class= "fancybox">
+    
+    <div class="title" style="margin-bottom: 10px">Confusion Matrix</div>
+    <img src="https://i.postimg.cc/HxwH1B1c/Figure-1.jpg"style="width:50%">
+    
+    <div class = "subtitle" style="margin-top: 20px; margin-left:10px; margin-right:10px">
+    - The Confusion Matrix compares predicted labels to the actual label during our models during the learning phase. <br><br>
+- For example, the title above the yellow is read: “We predicted 88 patients as normal, but in reality they were being spoofed.”<br><br>
+- The total of the patients of diagonal tiles (correct predictions) is 3037. The total labeled patients is 3264. This is 3037/3264 = 0.93%, which is consistent with our accuracy for using both biometric and network features accuracy.<br><br>
+- Interestingly, our model only had confusion with labeling spoofing (spoofing as falsely normal or normal as falsely spoofing), but never confuses Data Alteration with either. <br><br>
+- This suggests that spoofing is difficult to identify since fundamentally the spoofing attack is trying to blend in with normal device behavior.
+Furthermore, it implies Data Alteration leaves a distinct signature that separates it from other labels cleanly. 
+
+    </div>
+    
+    </div>
 
     
     <div class= "fancybox">
@@ -194,22 +211,6 @@ body {
     
     </div>
     
-        <div class= "fancybox">
-    
-    <div class="title" style="margin-bottom: 10px">Confusion Matrix</div>
-    <img src="https://i.postimg.cc/HxwH1B1c/Figure-1.jpg"style="width:50%">
-    
-    <div class = "subtitle" style="margin-top: 20px; margin-left:10px; margin-right:10px">
-    - The Confusion Matrix compares predicted labels to the actual label during our models during the learning phase. <br><br>
-- For example, the title above the yellow is read: “We predicted 88 patients as normal, but in reality they were being spoofed.”<br><br>
-- The total of the patients of diagonal tiles (correct predictions) is 3037. The total labeled patients is 3264. This is 3037/3264 = 0.93%, which is consistent with our accuracy for using both biometric and network features accuracy.<br><br>
-- Interestingly, our model only had confusion with labeling spoofing (spoofing as falsely normal or normal as falsely spoofing), but never confuses Data Alteration with either. <br><br>
-- This suggests that spoofing is difficult to identify since fundamentally the spoofing attack is trying to blend in with normal device behavior.
-Furthermore, it implies Data Alteration leaves a distinct signature that separates it from other labels cleanly. 
-
-    </div>
-    
-    </div>
     
         <div class= "fancybox">
     
@@ -229,11 +230,12 @@ Furthermore, it implies Data Alteration leaves a distinct signature that separat
     
           <div class= "fancybox" style="margin-bottom:20px">
     
-    <div class="title" style="margin-bottom: 10px">insert title</div>
+    <div class="title" style="margin-bottom: 10px">Supervised vs Unsupervised Attack Detection</div>
     <img src="https://i.postimg.cc/vZqbM32Y/image.png"style="width:70%">
     
     <div class = "subtitle" style="margin-top: 20px; margin-left:10px; margin-right:10px">
-    insert caption
+    - The Random Forest model (trained on labeled data) correctly identifies attacks 94% of the time.<br><br>
+- The other two models were never shown what an attack looks like, yet still catch about 75% of attacks on their own.
     </div>
     
     </div>

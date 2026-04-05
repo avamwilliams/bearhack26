@@ -22,6 +22,7 @@ body {
   overflow-x: hidden;
   background: url('https://i.postimg.cc/d1Ms2R3J/Screenshot-2026-04-04-103604.png') center/cover no-repeat;
   font-family: 'Inter', sans-serif;
+  background-color: #38367D;
 }
 
 .header {
@@ -142,7 +143,6 @@ body {
     <img class="logo" src="https://i.postimg.cc/BQ5zfpQw/Untitled686-20260404211313.png" style="height: 90px">
 
 <div class="nav-buttons">
-  <a href="index.html" class="button">Import</a>
   <a href="analysis.html" class="button">Analysis</a>
   <a href="info.html" class="button">Info</a>
 </div>
@@ -223,7 +223,7 @@ body {
         <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0; width:100%;">
 
         <p style="color:white; margin:4px 0;"><b>Recommendations:</b></p>
-        ${s.suggestions.map(r => `<p style="color:#90caf9; margin:2px 0; font-size:14px;">• ${r}</p>`).join("")}
+        ${s.suggestions.map(r => `<p style="color:#ccc; margin:2px 0; font-size:14px;">• ${r}</p>`).join("")}
 
       </div>
     `).join("");
