@@ -177,13 +177,59 @@ body {
     </div>
 
 
-<script>
-  const input = document.getElementById("fileUpload");
-  const fileName = document.getElementById("fileName");
+<input type="file" id="fileUpload" accept=".csv" style="display:none" />
+<label for="fileUpload" class="file-button">Upload CSV</label>
+<p id="fileName" style="color:white; text-align:center;"></p>
+<button class="file-button" onclick="runAnalysis()">Analyze</button>
+<div id="results"></div>
 
-  input.addEventListener("change", () => {
-    fileName.textContent = input.files[0]?.name || "";
+<script>
+  const BACKEND_URL = "http://localhost:5000";
+
+  document.getElementById("fileUpload").addEventListener("change", (e) => {
+    document.getElementById("fileName").textContent = e.target.files[0]?.name || "";
   });
+
+  async function runAnalysis() {
+    const file = document.getElementById("fileUpload").files[0];
+    if (!file) return alert("Please upload a CSV file first.");
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    document.getElementById("results").innerHTML = "<p style='color:white; text-align:center;'>Analyzing... please wait</p>";
+
+    try {
+      const res  = await fetch(`${BACKEND_URL}/analyze`, { method: "POST", body: formData });
+      const data = await res.json();
+      displayResults(data);
+    } catch (err) {
+      document.getElementById("results").innerHTML = "<p style='color:red; text-align:center;'>Error: make sure your backend is running on localhost:5000</p>";
+    }
+  }
+
+  function displayResults(samples) {
+    const alertColors = { LOW: "#4caf50", MEDIUM: "#ff9800", HIGH: "#f44336" };
+    document.getElementById("results").innerHTML = samples.map(s => `
+      <div class="fancybox" style="width:70%; margin-top:20px; text-align:left;">
+        <div class="subtitle" style="margin-bottom:10px;">
+          Sample #${s.sample} &nbsp;
+          <span class="pill" style="background:${alertColors[s.alert_level]}; color:white;">${s.alert_level}</span>
+        </div>
+        <p style="color:white; margin:4px 0;">Prediction: <b>${s.prediction}</b> — Confidence: ${s.confidence}%</p>
+        <p style="color:white; margin:4px 0;">Severity: ${s.severity} / 100</p>
+        <p style="color:white; margin:4px 0;">Normal: ${s.class_probs.normal}% &nbsp;|&nbsp; Spoofing: ${s.class_probs.spoofing}% &nbsp;|&nbsp; Data Alteration: ${s.class_probs.data_alt}%</p>
+        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0;">
+        <p style="color:white; margin:4px 0;"><b>Signal Breakdown:</b></p>
+        <p style="color:white; margin:4px 0;">RF Attack Prob: ${s.signals.rf_attack_prob}% &nbsp;|&nbsp; Isolation Forest: ${s.signals.iso_score}% &nbsp;|&nbsp; Autoencoder: ${s.signals.ae_anomaly}%</p>
+        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0;">
+        <p style="color:white; margin:4px 0;"><b>Top 5 SHAP Features:</b></p>
+        ${Object.entries(s.top5_shap).map(([k,v]) => `<p style="color:#ccc; margin:2px 0; font-size:14px;">&nbsp;&nbsp;${k}: ${v}</p>`).join("")}
+        <p style="color:white; margin:8px 0 4px;"><b>Top 5 Autoencoder Deviations:</b></p>
+        ${Object.entries(s.top5_recon).map(([k,v]) => `<p style="color:#ccc; margin:2px 0; font-size:14px;">&nbsp;&nbsp;${k}: ${v}</p>`).join("")}
+      </div>
+    `).join("");
+  }
 </script>
 
 </body>
