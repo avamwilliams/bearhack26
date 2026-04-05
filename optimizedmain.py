@@ -85,6 +85,32 @@ ae_p5  = np.percentile(ae_full, 5)
 ae_p99 = np.percentile(ae_full, 99)
 
 
+def generate_suggestions(prediction, top5_shap_keys):
+    if prediction.lower() == "normal":
+        return ["No action needed — traffic appears normal."]
+
+    suggestions = set()
+    for f in top5_shap_keys:
+        if "Load" in f:
+            suggestions.add("High traffic load detected: consider rate limiting.")
+        elif "Pkt" in f or "pkt" in f:
+            suggestions.add("Unusual packet behavior: inspect packet frequency and size.")
+        elif "Jitter" in f:
+            suggestions.add("Network instability detected: check for spoofing or interference.")
+        elif "Temp" in f or "Heart_rate" in f or "SpO2" in f or "Pulse" in f:
+            suggestions.add("Abnormal biometric readings: verify device integrity.")
+        elif "Loss" in f:
+            suggestions.add("Packet loss observed: investigate possible tampering.")
+        elif "SYS" in f or "DIA" in f:
+            suggestions.add("Abnormal blood pressure readings: check sensor calibration.")
+        elif "Resp" in f or "ST" in f:
+            suggestions.add("Abnormal respiratory/ECG readings: verify patient sensor connections.")
+        else:
+            suggestions.add(f"Investigate anomalous feature: {f}")
+
+    return list(suggestions)
+
+
 def analyze_sample_json(row_idx, scaled_df, raw_df):
     sample_scaled  = scaled_df.iloc[[row_idx]]
     sample_np      = sample_scaled.values
@@ -114,6 +140,8 @@ def analyze_sample_json(row_idx, scaled_df, raw_df):
     top5_shap     = pd.Series(np.abs(shap_for_pred), index=all_cols).nlargest(5)
     top5_recon    = pd.Series(per_feat_error, index=all_cols).nlargest(5)
 
+    suggestions = generate_suggestions(rf_pred_label, list(top5_shap.index))
+
     return {
         "sample": row_idx + 1,
         "prediction": rf_pred_label,
@@ -131,7 +159,8 @@ def analyze_sample_json(row_idx, scaled_df, raw_df):
             "ae_anomaly":     round(ae_norm * 100, 1)
         },
         "top5_shap":  {k: round(float(v), 4) for k, v in top5_shap.items()},
-        "top5_recon": {k: round(float(v), 4) for k, v in top5_recon.items()}
+        "top5_recon": {k: round(float(v), 4) for k, v in top5_recon.items()},
+        "suggestions": suggestions
     }
 
 
