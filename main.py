@@ -296,3 +296,107 @@ print("\nSeverity Score by Class")
 print(df_severity.groupby('True Label')['Severity'].describe().round(2))
 print("\nAlert Level Distribution")
 print(pd.crosstab(df_severity['True Label'], df_severity['Alert Level']))
+
+#runs sample analyzers in pipeline
+def analyze_sample(row_idx, scaled_df, raw_df):
+    all_cols = network_columns + bio_columns
+    #signal 1
+    sample_scaled = scaled_df.iloc[[row_idx]]
+    sample_np     = sample_scaled.values
+    rf_probs       = model_comb.predict_proba(sample_scaled)[0]
+    rf_pred_idx    = rf_probs.argmax()
+    rf_pred_label  = label_encoder.inverse_transform([rf_pred_idx])[0]
+    rf_attack_prob = 1 - rf_probs[2]
+    #signal 2
+    iso_score_raw  = isoforest.decision_function(sample_scaled)[0]
+    iso_score_norm = float(np.clip(1 - (iso_score_raw - iso_full.min()) / (iso_full.max() - iso_full.min()), 0, 1))
+
+    #signal 3
+    reconstructed  = autoencoder.predict(sample_np, verbose=0)
+    per_feat_error = (sample_np[0] - reconstructed[0]) ** 2
+    ae_error_total = per_feat_error.mean()
+    ae_p5  = np.percentile(ae_full, 5)
+    ae_p99 = np.percentile(ae_full, 99)
+    ae_norm = float(np.clip(
+        (ae_error_total - ae_p5) / (ae_p99 - ae_p5),
+        0, 1
+    ))
+
+    #severity calculation
+    severity = float(np.clip((0.5 * rf_attack_prob + 0.3 * iso_score_norm + 0.2 * ae_norm) * 100, 0, 100))
+
+    if severity <= 30:
+        alert_level = "LOW"
+    elif severity <= 65:
+        alert_level = "MEDIUM"
+    else:
+        alert_level = "HIGH"
+
+    #shap results
+    shap_sample = explainer.shap_values(sample_scaled)
+    if isinstance(shap_sample, list):
+        shap_for_pred = shap_sample[rf_pred_idx][0]
+    else:
+        shap_for_pred = shap_sample[0, :, rf_pred_idx]
+
+    top5_shap  = pd.Series(np.abs(shap_for_pred), index=all_cols).nlargest(5)
+    top5_recon = pd.Series(per_feat_error, index=all_cols).nlargest(5)
+
+    #output for testing
+    width = 62
+    print("\n" + "═" * width)
+    print(f"  IOMT SECURITY REPORT - Input sample #{row_idx + 1}")
+    print("═" * width)
+
+    print(f"\n\tPrediction: {rf_pred_label}")
+    print(f"\tConfidence: {rf_probs.max()*100:.1f}%")
+    print(f"\tClass probs: normal={rf_probs[2]*100:.1f}%  spoofing={rf_probs[1]*100:.1f}%  data_alt={rf_probs[0]*100:.1f}%")
+
+    print(f"\n{'─'*width}")
+    print(f"\tSEVERITY SCORE: {severity:.1f} / 100")
+    print(f"\tALERT LEVEL: {alert_level}")
+    print(f"{'─'*width}")
+    print(f"  Signal breakdown:")
+    print(f"    RF attack probability : {rf_attack_prob*100:5.1f}%   (weight 50%)")
+    print(f"    Isolation Forest score : {iso_score_norm*100:5.1f}%   (weight 30%)")
+    print(f"    Autoencoder anomaly : {ae_norm*100:5.1f}%   (weight 20%)")
+
+    print(f"\n{'─'*width}")
+    print(f"  Top 5 features used in classification ({rf_pred_label})")
+    for feat, val in top5_shap.items():
+        tag = " (biometric)" if feat in bio_columns else ""
+        actual = raw_df[feat].iloc[row_idx] if feat in raw_df.columns else 0.0
+        print(f"    {feat:<22} SHAP={val:.4f}   value={actual}{tag}")
+
+    print(f"\n{'─'*width}")
+    print(f"  Top 5 features deviating from normal (autoencoder)")
+    for feat, val in top5_recon.items():
+        tag = " (biometric)" if feat in bio_columns else ""
+        actual = raw_df[feat].iloc[row_idx] if feat in raw_df.columns else 0.0
+        print(f"    {feat:<22} recon_err={val:.4f}   value={actual}{tag}")
+
+    print("\n" + "═" * width + "\n")
+
+
+#load and process external csv file
+test_input = pd.read_csv("test_samples.csv")
+test_input.columns = test_input.columns.str.strip()
+
+test_input = pd.get_dummies(test_input, columns=['Flgs'], drop_first=False)
+
+all_cols = network_columns + bio_columns
+for col in all_cols:
+    if col in test_input.columns:
+        test_input[col] = pd.to_numeric(test_input[col], errors='coerce')
+    else:
+        test_input[col] = 0.0
+
+test_input[all_cols] = test_input[all_cols].fillna(0)
+
+test_scaled = pd.DataFrame(
+    scaler.transform(test_input[all_cols]),
+    columns=all_cols
+)
+
+for i in range(len(test_scaled)):
+    analyze_sample(i, test_scaled, test_input)
