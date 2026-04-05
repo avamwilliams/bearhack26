@@ -24,16 +24,13 @@ body {
   font-family: 'Inter', sans-serif;
 }
 
-/* HEADER */
 .header {
   width: 100%;
   height: 100px;
   background-color: #1d2040;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   padding: 0 20px;
 }
 
@@ -67,7 +64,6 @@ body {
   text-decoration: none;
 }
 
-/* TITLES */
 .title {
   color: white;
   font-size: 40px;
@@ -82,26 +78,22 @@ body {
   align-items: center;
   gap: 20px;
   margin-top: 30px;
+  padding-bottom: 60px;
 }
 
-/* BOXES */
 .fancybox {
   width: 40%;
   padding: 20px;
-
   background: rgba(29, 32, 64, 0.6);
   border-radius: 12px;
-
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-/* TEXT */
 .subtitle {
   display: flex;
   align-items: center;
@@ -119,7 +111,6 @@ body {
   font-weight: bold;
 }
 
-/* FILE BUTTON */
 .file-button {
   display: inline-block;
   background-color: white;
@@ -155,8 +146,6 @@ body {
   <a href="info.html" class="button">Info</a>
 </div>
   </div>
-  
-
 
   <div class="title">Analysing Health Data</div>
 
@@ -168,19 +157,15 @@ body {
         <span class="pill">Patient</span>
       </div>
     </div>
-    
-    <div class= "fancybox" style="width:70%">
-    <div class = "subtitle">
-    The imported data indicates that the medical equipment is performing normally. <br><br>The imported data indicates that the medical equipment is performing abnormally. This suggests the device is compromised.
-    </div>
-    </div>
 
+    <input type="file" id="fileUpload" accept=".csv" style="display:none" />
+    <label for="fileUpload" class="file-button">Upload CSV</label>
+    <p id="fileName"></p>
+    <button class="file-button" onclick="runAnalysis()">Analyze</button>
 
-<input type="file" id="fileUpload" accept=".csv" style="display:none" />
-<label for="fileUpload" class="file-button">Upload CSV</label>
-<p id="fileName" style="color:white; text-align:center;"></p>
-<button class="file-button" onclick="runAnalysis()">Analyze</button>
-<div id="results"></div>
+    <div id="results"></div>
+
+  </div>
 
 <script>
   const BACKEND_URL = "http://localhost:5000";
@@ -211,21 +196,34 @@ body {
     const alertColors = { LOW: "#4caf50", MEDIUM: "#ff9800", HIGH: "#f44336" };
     document.getElementById("results").innerHTML = samples.map(s => `
       <div class="fancybox" style="width:70%; margin-top:20px; text-align:left;">
+
         <div class="subtitle" style="margin-bottom:10px;">
           Sample #${s.sample} &nbsp;
           <span class="pill" style="background:${alertColors[s.alert_level]}; color:white;">${s.alert_level}</span>
         </div>
+
         <p style="color:white; margin:4px 0;">Prediction: <b>${s.prediction}</b> — Confidence: ${s.confidence}%</p>
         <p style="color:white; margin:4px 0;">Severity: ${s.severity} / 100</p>
         <p style="color:white; margin:4px 0;">Normal: ${s.class_probs.normal}% &nbsp;|&nbsp; Spoofing: ${s.class_probs.spoofing}% &nbsp;|&nbsp; Data Alteration: ${s.class_probs.data_alt}%</p>
-        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0;">
+
+        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0; width:100%;">
+
         <p style="color:white; margin:4px 0;"><b>Signal Breakdown:</b></p>
         <p style="color:white; margin:4px 0;">RF Attack Prob: ${s.signals.rf_attack_prob}% &nbsp;|&nbsp; Isolation Forest: ${s.signals.iso_score}% &nbsp;|&nbsp; Autoencoder: ${s.signals.ae_anomaly}%</p>
-        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0;">
+
+        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0; width:100%;">
+
         <p style="color:white; margin:4px 0;"><b>Top 5 SHAP Features:</b></p>
         ${Object.entries(s.top5_shap).map(([k,v]) => `<p style="color:#ccc; margin:2px 0; font-size:14px;">&nbsp;&nbsp;${k}: ${v}</p>`).join("")}
+
         <p style="color:white; margin:8px 0 4px;"><b>Top 5 Autoencoder Deviations:</b></p>
         ${Object.entries(s.top5_recon).map(([k,v]) => `<p style="color:#ccc; margin:2px 0; font-size:14px;">&nbsp;&nbsp;${k}: ${v}</p>`).join("")}
+
+        <hr style="border-color:rgba(255,255,255,0.2); margin:10px 0; width:100%;">
+
+        <p style="color:white; margin:4px 0;"><b>Recommendations:</b></p>
+        ${s.suggestions.map(r => `<p style="color:#90caf9; margin:2px 0; font-size:14px;">• ${r}</p>`).join("")}
+
       </div>
     `).join("");
   }
